@@ -1,4 +1,5 @@
-#JNICallback
+# JNICallback
+
 ```
 1. 功能：本地代码实现计时器功能
 2. POSIX线程的使用
@@ -12,7 +13,7 @@
 3. [线程销毁](#thread_destroy)
 
 ---
-##<a name="create_thread"></a>创建线程
+## <a name="create_thread"></a>创建线程
 
 
 >核心方法`pthread_create(pthread_t *thread, pthread_attr_t const* attr,
@@ -26,8 +27,8 @@ void*(*start_routine)(void*),void *arg)`
 
 >**pthread_create()函数成功时返回0，失败时返回一个错误代码**
 
-###pthread\_attr_t 线程属性
-####初始化
+### pthread\_attr_t 线程属性
+#### 初始化
 
 线程具有属性用`pthread_attr_t`表示在对该结构进行设置之前必须先对其初始化，在使用后需要去除初始化方法分别为`pthread_attr_init`和`pthread_attr_destroy`
 
@@ -62,7 +63,7 @@ typedef struct
 ```
 
 ----
-####设置分离状态
+#### 设置分离状态
 线程的分离状态是指线程以什么样的方式来终止自己。默认情况下线程是非终止状态的，这种情况下原有的线程等待创建的线程结束。只有当pthread_jion()函数返回时，创建的线程才算终止，才能释放占用的系统资源.
 
 而分离状态不是这样的，它没有被其他的线程所等待，自己运行结束了线程也就结束了，马上释放系统资源。
@@ -78,9 +79,9 @@ typedef struct
 
 **pthread\_attr\_t[更多介绍](http://blog.csdn.net/pbymw8iwm/article/details/6721038)**
 ---
-###互斥锁实现线程同步
+### 互斥锁实现线程同步
 POSIX线程API从原生代码提供一组交互功能的互斥，使用前互斥变量应先被初始化。
-####初始化互斥锁
+#### 初始化互斥锁
 POSIX提供两种初始化互斥锁的方法，pthread\_mutex\_init和PTHREAD_MUTEX_INIALIZER宏。
 
 | | |
@@ -91,20 +92,20 @@ POSIX提供两种初始化互斥锁的方法，pthread\_mutex\_init和PTHREAD_MU
 |参数|初始化的互斥变量的指针，互斥锁属性结构体的指针|
 |返回值|成功返回0互斥锁处于打开状态，失败返回错误代码|
 
-####锁定互斥锁
+#### 锁定互斥锁
 pthread_mutex_lock函数通过对一个已经初始化的互斥锁紧型封锁操作达到互斥操作的目的。
 
 | | |
 |:--|:--|
 |函数原型|int pthread\_mutex\_lock(pthread\_mutex\_t *mutex)|
 |返回值|成功返回0，失败返回错误代码|
-####解锁互斥锁
-|||
+#### 解锁互斥锁
+| | |
 |:--|:--|
 |函数原型|int pthread\_mutex\_unlock(pthread\_mutex\_t*mutex)|
 |功能|在临界区代码执行完成时，使用该方法解锁互斥锁|
 |返回值|成功返回0，失败返回错误代码|
-####销毁互斥锁
+#### 销毁互斥锁
 一旦不需要互斥锁可以将互斥锁进行销毁
 
 | | |
