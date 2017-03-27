@@ -33,8 +33,23 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_zdd_jnicallback_MainActivity_stopTicks(JNIEnv *env, jobject instance) {
+    pthread_mutex_lock(&g_ctx.lock);
+    g_ctx.done = 1;
+    pthread_mutex_unlock(&g_ctx.lock);
 
-    // TODO
+    struct timespec sleepTime;
+    memset(&sleepTime, 0, sizeof(sleepTime));
+    sleepTime.tv_nsec = 100000000;
+    if (g_ctx.done) {
+        nanosleep(&sleepTime, NULL);
+    }
+
+    (*env).DeleteGlobalRef(g_ctx.mainActivityObj);
+    (*env).DeleteGlobalRef(g_ctx.mainActivityCls);
+    g_ctx.mainActivityCls = NULL;
+    g_ctx.mainActivityObj = NULL;
+
+    pthread_mutex_destroy(&g_ctx.lock);
 
 }
 
@@ -86,7 +101,7 @@ void *UpdateTicks(void *context) {
         }
     }
 
-    (*javaVM).DestroyJavaVM();
+    (*javaVM).DetachCurrentThread();
     return context;
 }
 
