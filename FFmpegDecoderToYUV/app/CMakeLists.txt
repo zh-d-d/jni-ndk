@@ -5,6 +5,30 @@
 
 cmake_minimum_required(VERSION 3.4.1)
 
+set(lib_src_DIR ${CMAKE_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI})
+include_directories(${CMAKE_SOURCE_DIR}/src/main/cpp)
+
+#load so file
+
+add_library(libavcodec SHARED IMPORTED)
+set_target_properties(libavcodec PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libavcodec-57.so)
+
+add_library(libavfilter SHARED IMPORTED)
+set_target_properties(libavfilter PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libavfilter-6.so)
+
+add_library(libavformat SHARED IMPORTED)
+set_target_properties(libavformat PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libavformat-57.so)
+
+add_library(libavutil SHARED IMPORTED)
+set_target_properties(libavutil PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libavutil-55.so)
+
+
+add_library(libswresample SHARED IMPORTED)
+set_target_properties(libswresample PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libswresample-2.so)
+
+add_library(libswscale SHARED IMPORTED)
+set_target_properties(libswscale PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libswscale-4.so)
+
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
 # You can define multiple libraries, and CMake builds them for you.
@@ -36,9 +60,16 @@ find_library( # Sets the name of the path variable.
 # can link multiple libraries, such as libraries you define in this
 # build script, prebuilt third-party libraries, or system libraries.
 
+include_directories(src/main/jniLibs/include)
+
 target_link_libraries( # Specifies the target library.
                        native-lib
-
+                       libavcodec
+                       libavfilter
+                       libavformat
+                       libavutil
+                       libswresample
+                       libswscale
                        # Links the target library to the log library
                        # included in the NDK.
                        ${log-lib} )
