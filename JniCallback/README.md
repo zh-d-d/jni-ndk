@@ -113,3 +113,43 @@ pthread_mutex_lock函数通过对一个已经初始化的互斥锁紧型封锁�
 |:--|:--|
 |函数原型|int pthread\_mutex\_destroy(pthread\_mutext\_t *mutex)|
 
+## <a name="thread_word"></a>本地线程完成计时功能
+
+因为是在子线程中完成的计时功能，所以首先需要将当前线程附加到java虚拟机上，并同时获得JNIEnv接口指针。使用函数`AttachCurrentThread`完成该需求。
+
+#### 计时逻辑的实现
+实现1s的计时，借助以下结构体和方法
+
+* timeval 
+	
+	struct timeval有两个成员，一个是秒，一个是微秒, 所以最高精确度是微秒。
+一般由函数int gettimeofday(struct timeval \*tv, struct timezone \*tz)获取系统的时间 
+
+	```
+	struct timeval {
+		time_t tv_sec; // seconds 
+		long tv_usec; // microseconds 
+	};
+	```
+
+* timespec 
+
+	struct timespec有两个成员，一个是秒，一个是纳秒, 所以最高精确度是纳秒。
+一般由函数int clock_gettime(clockid_t, struct timespec *)获取特定时钟的时间
+
+	```
+	struct timespec {
+		time_t tv_sec; // seconds 
+		long tv_nsec; // and nanoseconds 
+	};
+	```
+	
+* timersub()
+
+* int nanosleep(const struct timespec \*req,struct timespec \*rem);
+
+	这个函数功能是暂停某个进程直到你规定的时间后恢复，参数req就是你要暂停的时间，其中req->tv_sec是以秒为单位，而tv_nsec以纳秒为单位（10的-9次方秒）。由于调用nanosleep是使进程进入TASK_INTERRUPTIBLE，这就意味着有可能会没有等到你规定的时间就因为其它信号而唤醒，此时函数返回-1，且剩余的时间会被记录在rem中
+	
+* DetachCurrentThread()
+
+	当在一个线程里面调用AttachCurrentThread后，如果不需要用的时候一定要DetachCurrentThread，否则线程无法正常退出
