@@ -6,6 +6,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+/**
+ * @CreateDate: 2017/4/14 下午3:18
+ * @Author: lucky
+ * @Description:
+ * @Version: [v1.0]
+ * <p>
+ * 这里需要注意 视频的路径  视频的路径  视频的路径 坑死了我两天
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     // Used to load the 'native-lib' library on application startup.
@@ -18,15 +27,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final EditText cmdEdittext= (EditText) this.findViewById(R.id.editText_cmd);
-        Button startButton= (Button) this.findViewById(R.id.button_start);
+        // Example of a call to a native method
+        final EditText cmdEdittext = (EditText) this.findViewById(R.id.editText_cmd);
 
-        startButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0){
-                String cmdline=cmdEdittext.getText().toString();
-                String[] argv=cmdline.split(" ");
-                Integer argc=argv.length;
-                ffmpegcore(argc,argv);
+        Button transcoder = (Button) findViewById(R.id.button_start);
+        transcoder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String cmdline = cmdEdittext.getText().toString();
+                String[] argv = cmdline.split(" ");
+                Integer argc = argv.length;
+                ffmpegcore(argc, argv);
             }
         });
     }
@@ -36,6 +48,6 @@ public class MainActivity extends AppCompatActivity {
      * which is packaged with this application.
      */
     public native String stringFromJNI();
-    public native int ffmpegcore(int argc,String[] argv);
 
+    public native int ffmpegcore(int argc, String[] argv);
 }

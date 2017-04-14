@@ -8,26 +8,36 @@ cmake_minimum_required(VERSION 3.4.1)
 set(lib_src_DIR ${CMAKE_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI})
 include_directories(${CMAKE_SOURCE_DIR}/src/main/cpp)
 
-#load so file
-
-add_library(libavcodec SHARED IMPORTED)
-set_target_properties(libavcodec PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libavcodec-57.so)
-
-add_library(libavfilter SHARED IMPORTED)
-set_target_properties(libavfilter PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libavfilter-6.so)
-
-add_library(libavformat SHARED IMPORTED)
-set_target_properties(libavformat PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libavformat-57.so)
-
-add_library(libavutil SHARED IMPORTED)
-set_target_properties(libavutil PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libavutil-55.so)
 
 
-add_library(libswresample SHARED IMPORTED)
-set_target_properties(libswresample PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libswresample-2.so)
 
-add_library(libswscale SHARED IMPORTED)
-set_target_properties(libswscale PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libswscale-4.so)
+add_library(libavcodec-56 SHARED IMPORTED)
+set_target_properties(libavcodec-56 PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libavcodec-56.so)
+
+add_library(libavdevice-56 SHARED IMPORTED)
+set_target_properties(libavdevice-56 PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libavdevice-56.so)
+
+add_library(libavfilter-5 SHARED IMPORTED)
+set_target_properties(libavfilter-5 PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libavfilter-5.so)
+
+add_library(libavformat-56 SHARED IMPORTED)
+set_target_properties(libavformat-56 PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libavformat-56.so)
+
+add_library(libavutil-54 SHARED IMPORTED)
+set_target_properties(libavutil-54 PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libavutil-54.so)
+
+add_library(libpostproc-53 SHARED IMPORTED)
+set_target_properties(libpostproc-53 PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libpostproc-53.so)
+
+add_library(libsfftranscoder SHARED IMPORTED)
+set_target_properties(libsfftranscoder PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libsfftranscoder.so)
+
+add_library(libswresample-1 SHARED IMPORTED)
+set_target_properties(libswresample-1 PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libswresample-1.so)
+
+add_library(libswscale-3 SHARED IMPORTED)
+set_target_properties(libswscale-3 PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libswscale-3.so)
+
 
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
@@ -41,7 +51,13 @@ add_library( # Sets the name of the library.
              SHARED
 
              # Provides a relative path to your source file(s).
-             src/main/cpp/native-lib.cpp )
+             # src/main/cpp/ffmpeg_jni.c
+             src/main/cpp/cmdutils.c
+             src/main/cpp/ffmpeg_filter.c
+             src/main/cpp/ffmpeg_mod.c
+             src/main/cpp/ffmpeg_opt.c
+             src/main/cpp/native-lib.cpp
+             )
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
@@ -56,20 +72,24 @@ find_library( # Sets the name of the path variable.
               # you want CMake to locate.
               log )
 
+include_directories(src/main/jniLibs/include)
+
 # Specifies libraries CMake should link to your target library. You
 # can link multiple libraries, such as libraries you define in this
 # build script, prebuilt third-party libraries, or system libraries.
 
-include_directories(src/main/jniLibs/include)
-
 target_link_libraries( # Specifies the target library.
                        native-lib
-                       libavcodec
-                       libavfilter
-                       libavformat
-                       libavutil
-                       libswresample
-                       libswscale
+
+                       libavcodec-56
+                       libavdevice-56
+                       libavfilter-5
+                       libavformat-56
+                       libavutil-54
+                       libpostproc-53
+                       libsfftranscoder
+                       libswresample-1
+                       libswscale-3
                        # Links the target library to the log library
                        # included in the NDK.
                        ${log-lib} )
