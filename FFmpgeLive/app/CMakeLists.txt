@@ -9,31 +9,6 @@ set(lib_src_DIR ${CMAKE_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI})
 include_directories(${CMAKE_SOURCE_DIR}/src/main/cpp)
 
 
-add_library(libavcodec SHARED IMPORTED)
-set_target_properties(libavcodec PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libavcodec-57.so)
-
-add_library(libavfilter SHARED IMPORTED)
-set_target_properties(libavfilter PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libavfilter-6.so)
-
-add_library(libavformat SHARED IMPORTED)
-set_target_properties(libavformat PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libavformat-57.so)
-
-add_library(libavutil SHARED IMPORTED)
-set_target_properties(libavutil PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libavutil-55.so)
-
-add_library(libpostproc SHARED IMPORTED)
-set_target_properties(libpostproc PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libpostproc-54.so)
-
-
-add_library(libswresample SHARED IMPORTED)
-set_target_properties(libswresample PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libswresample-2.so)
-
-add_library(libswscale SHARED IMPORTED)
-set_target_properties(libswscale PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libswscale-4.so)
-
-add_library(libx264 STATIC IMPORTED)
-set_target_properties(libx264 PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libx264.a)
-
 add_library(libffmpeg STATIC IMPORTED)
 set_target_properties(libffmpeg PROPERTIES IMPORTED_LOCATION ${lib_src_DIR}/libffmpeg.so)
 
@@ -74,14 +49,6 @@ include_directories(src/main/jniLibs/include)
 
 target_link_libraries( # Specifies the target library.
                        native-lib
-                       #libavcodec
-                       #libavfilter
-                       #libavformat
-                       #libavutil
-                       #libpostproc
-                       #libswresample
-                       #libswscale
-                       #libx264
                        libffmpeg
 
                        # Links the target library to the log library
