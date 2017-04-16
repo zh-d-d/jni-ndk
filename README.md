@@ -11,6 +11,8 @@ JNI基本语法使用描述
 
 5. [调用构造方法和父类实例方法](https://github.com/lucky9322/jni-ndk/blob/master/%E8%B0%83%E7%94%A8%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E5%92%8C%E7%88%B6%E7%B1%BB%E5%AE%9E%E4%BE%8B%E6%96%B9%E6%B3%95.md)
 
+6. [CMake语法](https://github.com/lucky9322/jni-ndk/blob/master/CMake%E8%AF%AD%E6%B3%95.md)
+
 6. [导入使用FFMpeg获取基本信息](https://github.com/lucky9322/jni-ndk/tree/master/FFmpegLib)
 7. [基于FFMpge的android视频解码器](https://github.com/lucky9322/jni-ndk/tree/master/FFmpegDecoderToYUV)
 8. [基于FFMpeg的推流器](https://github.com/lucky9322/jni-ndk/tree/master/FFmpegPushStream)
